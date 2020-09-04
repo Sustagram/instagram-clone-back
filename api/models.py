@@ -10,15 +10,24 @@ class User(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     last_login = models.DateTimeField()
 
+    class Meta:
+        db_table = "User"
+
 class Subscribe(models.Model):
     subscribe_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     email = models.CharField(max_length=100)
     following_email = models.CharField(max_length=100)
 
+    class Meta:
+        db_table = "Subscribe"
+
 class Like(models.Model):
     like_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     email = models.CharField(max_length=100)
     post_id = models.UUIDField()
+
+    class Meta:
+        db_table = "Like"
 
 class Post(models.Model):
     post_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -28,6 +37,9 @@ class Post(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        db_table = "Post"
+
 class Reply(models.Model):
     reply_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     post_id = models.UUIDField()
@@ -36,6 +48,9 @@ class Reply(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        db_table = "Reply"
+
 class Rbr(models.Model):
     rbr_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     reply_id = models.UUIDField()
@@ -43,3 +58,6 @@ class Rbr(models.Model):
     user_email = models.UUIDField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = "Rbr"
