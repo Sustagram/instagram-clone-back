@@ -1,3 +1,22 @@
-__pycache__
+# virtualenv
+.venv
+venv/
 
+# dotenv
+.env
+
+# etc
+.DS_Store
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Test Database
 db.sqlite3
+
+# Migration files
+**/migrations/**
+!**/migrations
+!**/migrations/__init__.py
