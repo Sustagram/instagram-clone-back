@@ -4,7 +4,8 @@ from django.db import models
 
 
 class User(models.Model):
-    email = models.CharField(max_length=100, primary_key=True)
+    user_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    email = models.CharField(max_length=100)
     realname = models.TextField()
     username = models.TextField()
     password = models.TextField()
@@ -18,8 +19,8 @@ class User(models.Model):
 
 class Subscribe(models.Model):
     subscribe_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    email = models.CharField(max_length=100)
-    following_email = models.CharField(max_length=100)
+    user_id = models.UUIDField()
+    following_id = models.UUIDField()
 
     class Meta:
         db_table = "Subscribe"
@@ -27,7 +28,7 @@ class Subscribe(models.Model):
 
 class Like(models.Model):
     like_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    email = models.CharField(max_length=100)
+    user_id = models.UUIDField()
     post_id = models.UUIDField()
 
     class Meta:
@@ -38,7 +39,7 @@ class Post(models.Model):
     post_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     text = models.TextField()
     media = models.TextField()
-    user_email = models.UUIDField()
+    user_id = models.UUIDField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -50,7 +51,7 @@ class Reply(models.Model):
     reply_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     post_id = models.UUIDField()
     text = models.TextField()
-    user_email = models.UUIDField()
+    user_id = models.UUIDField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -62,7 +63,7 @@ class Rbr(models.Model):
     rbr_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     reply_id = models.UUIDField()
     text = models.TextField()
-    user_email = models.UUIDField()
+    user_id = models.UUIDField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
