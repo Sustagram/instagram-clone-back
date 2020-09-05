@@ -1,5 +1,7 @@
-from django.db import models
 import uuid
+
+from django.db import models
+
 
 class User(models.Model):
     email = models.CharField(max_length=100, primary_key=True)
@@ -13,6 +15,7 @@ class User(models.Model):
     class Meta:
         db_table = "User"
 
+
 class Subscribe(models.Model):
     subscribe_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     email = models.CharField(max_length=100)
@@ -21,6 +24,7 @@ class Subscribe(models.Model):
     class Meta:
         db_table = "Subscribe"
 
+
 class Like(models.Model):
     like_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     email = models.CharField(max_length=100)
@@ -28,6 +32,7 @@ class Like(models.Model):
 
     class Meta:
         db_table = "Like"
+
 
 class Post(models.Model):
     post_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -40,6 +45,7 @@ class Post(models.Model):
     class Meta:
         db_table = "Post"
 
+
 class Reply(models.Model):
     reply_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     post_id = models.UUIDField()
@@ -50,6 +56,7 @@ class Reply(models.Model):
 
     class Meta:
         db_table = "Reply"
+
 
 class Rbr(models.Model):
     rbr_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
