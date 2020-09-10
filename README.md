@@ -1,6 +1,6 @@
 # 인스타그램 클론코딩 백엔드
 
-- [인스터그램 클론코딩 프론트엔드](https://github.com/SkyLightQP/instagram-clone-front)
+- [인스터그램 클론코딩 프론트엔드](https://github.com/Sustagram/instagram-clone-front)
 
 ## 🐍 Python3 Version
 - v3.7.9
