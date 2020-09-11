@@ -15,8 +15,3 @@ __pycache__/
 
 # Test Database
 db.sqlite3
-
-# Migration files
-**/migrations/**
-!**/migrations
-!**/migrations/__init__.py
