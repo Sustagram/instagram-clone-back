@@ -1,8 +1,9 @@
+import os
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-SECRET_KEY = '$n2uurofm(*o8*lx49qx+)92dbhe@)jfho8yx4zea9cfzw-di$'
-DEBUG = False
+SECRET_KEY = os.environ.get("SECRET_KEY")
+DEBUG = os.environ.get("DEBUG") == 'TRUE'
 ALLOWED_HOSTS = ['*']
 
 CORS_ORIGIN_ALLOW_ALL = True
