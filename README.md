@@ -23,3 +23,24 @@ python ./manage.py runserver
 
 ## ⚙ Database Model
 ![DatabaseModel](./docs/model.png)
+
+## 🛠 Environment Variables
+
+- `.env`로 파일을 만들어 내용을 추가합니다.
+
+- `.env.example`에 예시가 나와있습니다.
+
+- `DB_HOST`
+  - 데이터베이스 주소
+- `DB_PORT`
+  - 데이터베이스 포트
+- `DB_DATABASE`
+  - 데이터베이스 이름
+- `DB_USERNAME`
+  - 데이터베이스 유저
+- `DB_PASSWORD`
+  - 데이터베이스 비밀번호
+- `SECRET_KEY`
+  - 장고 시크릿 키
+- `DEBUG`
+  - 장고 디버그 모드 여부 (TRUE or FALSE)
