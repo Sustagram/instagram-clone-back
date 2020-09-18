@@ -19,8 +19,8 @@ class User(models.Model):
 
 class Subscribe(models.Model):
     subscribe_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user_set", db_column="user_id")
-    following_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name="following_set", db_column="following_id")
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user_id_set", db_column="user_id")
+    following_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name="following_id_set", db_column="following_id")
 
     class Meta:
         db_table = "Subscribe"
