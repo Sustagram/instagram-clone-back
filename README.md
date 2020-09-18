@@ -21,7 +21,7 @@ pip install -r ./requirements.txt
 python ./manage.py runserver
 ```
 
-## ⚙ Database Model
+## ⚙ Database Model (Old)
 ![DatabaseModel](./docs/model.png)
 
 ## 🛠 Environment Variables
