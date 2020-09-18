@@ -19,27 +19,18 @@ class User(models.Model):
 
 class Subscribe(models.Model):
     subscribe_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    user_id = models.UUIDField()
-    following_id = models.UUIDField()
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user_set", db_column="user_id")
+    following_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name="following_set", db_column="following_id")
 
     class Meta:
         db_table = "Subscribe"
-
-
-class Like(models.Model):
-    like_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    user_id = models.UUIDField()
-    post_id = models.UUIDField()
-
-    class Meta:
-        db_table = "Like"
 
 
 class Post(models.Model):
     post_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     text = models.TextField()
     media = models.TextField()
-    user_id = models.UUIDField()
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE, db_column="user_id")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -47,11 +38,20 @@ class Post(models.Model):
         db_table = "Post"
 
 
+class Like(models.Model):
+    like_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE, db_column="user_id")
+    post_id = models.OneToOneField(Post, on_delete=models.CASCADE, db_column="post_id")
+
+    class Meta:
+        db_table = "Like"
+
+
 class Reply(models.Model):
     reply_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    post_id = models.UUIDField()
+    post_id = models.ForeignKey(Post, on_delete=models.CASCADE, db_column="post_id")
     text = models.TextField()
-    user_id = models.UUIDField()
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE, db_column="user_id")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -61,9 +61,9 @@ class Reply(models.Model):
 
 class Rbr(models.Model):
     rbr_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    reply_id = models.UUIDField()
+    reply_id = models.ForeignKey(Reply, on_delete=models.CASCADE, db_column="reply_id")
     text = models.TextField()
-    user_id = models.UUIDField()
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE, db_column="user_id")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
