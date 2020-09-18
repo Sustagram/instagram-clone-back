@@ -6,6 +6,8 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 DEBUG = os.environ.get("DEBUG").upper() == 'TRUE'
 ALLOWED_HOSTS = ['*']
 
+APPEND_SLASH = False
+
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_METHODS = (
