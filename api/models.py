@@ -1,17 +1,25 @@
 import uuid
-
+from django.contrib.auth.models import AbstractBaseUser
 from django.db import models
 
+from .managers import UserManager
 
-class User(models.Model):
+
+class User(AbstractBaseUser):
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = ["realname", "username", "password"]
+
+    objects = UserManager()
+
     user_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    email = models.CharField(max_length=100, unique=True)
+    email = models.EmailField(unique=True)
     realname = models.TextField()
     username = models.TextField()
     password = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     last_login = models.DateTimeField()
+    is_superuser = models.BooleanField()
 
     class Meta:
         db_table = "User"
@@ -20,7 +28,8 @@ class User(models.Model):
 class Subscribe(models.Model):
     subscribe_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user_id_set", db_column="user_id")
-    following_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name="following_id_set", db_column="following_id")
+    following_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name="following_id_set",
+                                     db_column="following_id")
 
     class Meta:
         db_table = "Subscribe"
