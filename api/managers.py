@@ -1,3 +1,5 @@
+import datetime
+
 from django.contrib.auth.base_user import BaseUserManager
 
 
@@ -8,7 +10,8 @@ class UserManager(BaseUserManager):
         if not email:
             raise ValueError('The given email must be set')
         email = self.normalize_email(email)
-        user = self.model(email=email, realname=realname, username=username, **extra_fields)
+        user = self.model(email=email, realname=realname, username=username, last_login=datetime.datetime.now(),
+                          **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
         return user
