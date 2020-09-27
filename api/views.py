@@ -1,5 +1,7 @@
 import json
+import os
 
+import jwt
 from django.contrib.auth import authenticate
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -7,7 +9,7 @@ from rest_framework.views import APIView
 from .errors import USER_ALREADY_EXISTS, USER_NOT_FOUND
 from .models import User
 from .serializers import UserSerializer
-from .utils import make_response_payload
+from .utils import make_response_payload, require_token
 
 
 class Register(APIView):
@@ -43,4 +45,20 @@ class Login(APIView):
 
         result = UserSerializer(user).data
 
-        return Response(make_response_payload(result), status=200)
+        bjwt = jwt.encode({
+            "uuid": result["user_id"],
+            "email": result["email"]
+        }, os.environ.get("SECRET_KEY"))
+
+        data = {
+            "user": result,
+            "token": bjwt.decode("utf-8")
+        }
+
+        return Response(make_response_payload(data), status=200)
+
+
+class Me(APIView):
+    @require_token
+    def get(self, request):
+        return Response(make_response_payload(request.user), status=200)
