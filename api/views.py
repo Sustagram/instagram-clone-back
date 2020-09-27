@@ -13,7 +13,7 @@ from .utils import make_response_payload
 class Register(APIView):
     def post(self, request):
         if request.META["CONTENT_TYPE"] != "application/json":
-            return
+            return Response(make_response_payload(is_success=False), status=415)
 
         body = json.loads(request.body)
 
@@ -26,21 +26,21 @@ class Register(APIView):
 
         result = UserSerializer(user).data
 
-        return Response(make_response_payload(result))
+        return Response(make_response_payload(result), status=201)
 
 
 class Login(APIView):
     def post(self, request):
         if request.META["CONTENT_TYPE"] != "application/json":
-            return
+            return Response(make_response_payload(is_success=False), status=415)
 
         body = json.loads(request.body)
 
         user = authenticate(username=body["email"], password=body["password"])
 
         if user is None:
-            return Response(make_response_payload(is_success=False, message=USER_NOT_FOUND))
+            return Response(make_response_payload(is_success=False, message=USER_NOT_FOUND), status=404)
 
         result = UserSerializer(user).data
 
-        return Response(make_response_payload(result))
+        return Response(make_response_payload(result), status=200)
