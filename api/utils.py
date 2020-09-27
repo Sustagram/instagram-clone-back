@@ -3,7 +3,7 @@ import os
 import jwt
 from rest_framework.response import Response
 
-from .errors import TOKEN_ERROR
+from .errors import TOKEN_ERROR, USER_NOT_FOUND
 from .models import User
 from .serializers import UserSerializer
 
@@ -23,6 +23,9 @@ def require_token(func):
             decoded = jwt.decode(token, os.environ.get("SECRET_KEY"))
             user = User.objects.filter(user_id=decoded["uuid"])
             result = UserSerializer(user, many=True).data
+
+            if len(request) <= 0:
+                return Response(make_response_payload(message=USER_NOT_FOUND, is_success=True), status=404)
 
             request.user = result[0]
 
