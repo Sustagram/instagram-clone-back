@@ -34,5 +34,7 @@ def require_token(func):
             return Response(make_response_payload(message=TOKEN_ERROR, is_success=True), status=401)
         except jwt.InvalidSignatureError:
             return Response(make_response_payload(message=TOKEN_ERROR, is_success=True), status=401)
+        except jwt.DecodeError:
+            return Response(make_response_payload(message=TOKEN_ERROR, is_success=True), status=401)
 
     return wrapper
