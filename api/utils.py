@@ -24,7 +24,7 @@ def require_token(func):
             user = User.objects.filter(user_id=decoded["uuid"])
             result = UserSerializer(user, many=True).data
 
-            if len(request) <= 0:
+            if len(result) <= 0:
                 return Response(make_response_payload(message=USER_NOT_FOUND, is_success=True), status=404)
 
             request.user = result[0]
