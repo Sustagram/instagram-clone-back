@@ -18,6 +18,9 @@ def make_response_payload(data=None, message=None, is_success=True):
 
 def require_token(func):
     def wrapper(self, request, *args, **kwargs):
+        if not("HTTP_AUTHORIZATION" in request.META):
+            return Response(make_response_payload(message=TOKEN_ERROR, is_success=True), status=401)
+
         token = str(request.META["HTTP_AUTHORIZATION"]).replace("Bearer ", "")
         try:
             decoded = jwt.decode(token, os.environ.get("SECRET_KEY"))
