@@ -7,8 +7,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .errors import USER_ALREADY_EXISTS, USER_NOT_FOUND
-from .models import User
-from .serializers import UserSerializer
+from .models import User, Post
+from .serializers import UserSerializer, PostSerializer
 from .utils import make_response_payload, require_token
 
 
@@ -62,3 +62,15 @@ class Me(APIView):
     @require_token
     def get(self, request):
         return Response(make_response_payload(request.user), status=200)
+
+
+class PostAPI(APIView):
+    @require_token
+    def get(self, request):
+        posts = Post.objects.all()
+
+        result = []
+        for p in posts:
+            result.append(PostSerializer(p).data)
+
+        return Response(make_response_payload(result), status=200)
