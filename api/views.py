@@ -1,13 +1,13 @@
 import json
 import os
-import uuid
 
 import jwt
 from django.contrib.auth import authenticate
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from .errors import USER_ALREADY_EXISTS, USER_NOT_FOUND
+from .errors import USER_ALREADY_EXISTS, USER_NOT_FOUND, VALIDATION_ERROR
+from .forms import RegisterForm, LoginForm, PostForm
 from .models import User, Post
 from .serializers import UserSerializer, PostSerializer
 from .utils import make_response_payload, require_token
@@ -19,6 +19,10 @@ class Register(APIView):
             return Response(make_response_payload(is_success=False), status=415)
 
         body = json.loads(request.body)
+        form = RegisterForm(data=body)
+
+        if not form.is_valid():
+            return Response(make_response_payload(is_success=False, message=VALIDATION_ERROR), status=400)
 
         if User.objects.filter(email=body["email"]).exists():
             return Response(make_response_payload(is_success=False, message=USER_ALREADY_EXISTS), status=409)
@@ -38,6 +42,10 @@ class Login(APIView):
             return Response(make_response_payload(is_success=False), status=415)
 
         body = json.loads(request.body)
+        form = LoginForm(data=body)
+
+        if not form.is_valid():
+            return Response(make_response_payload(is_success=False, message=VALIDATION_ERROR), status=400)
 
         user = authenticate(username=body["email"], password=body["password"])
 
@@ -82,6 +90,10 @@ class PostAPI(APIView):
             return Response(make_response_payload(is_success=False), status=415)
 
         body = json.loads(request.body)
+        form = PostForm(data=body)
+
+        if not form.is_valid():
+            return Response(make_response_payload(is_success=False, message=VALIDATION_ERROR), status=400)
 
         post = Post.objects.create(
             text=body["text"],
