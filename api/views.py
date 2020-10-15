@@ -1,5 +1,6 @@
 import json
 import os
+import uuid
 
 import jwt
 from django.contrib.auth import authenticate
@@ -74,3 +75,18 @@ class PostAPI(APIView):
             result.append(PostSerializer(p).data)
 
         return Response(make_response_payload(result), status=200)
+
+    @require_token
+    def post(self, request):
+        if request.META["CONTENT_TYPE"] != "application/json":
+            return Response(make_response_payload(is_success=False), status=415)
+
+        body = json.loads(request.body)
+
+        post = Post.objects.create(
+            text=body["text"],
+            media=body["media"],
+            user_id_id=body["userId"]
+        )
+
+        return Response(make_response_payload(PostSerializer(post).data), status=200)
