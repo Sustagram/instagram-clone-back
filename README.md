@@ -3,11 +3,18 @@
 - [인스터그램 클론코딩 프론트엔드](https://github.com/Sustagram/instagram-clone-front)
 
 ## 🐍 Python3 Version
+
 - v3.7.9
 
 ## 🚀 시작하기
 
 - venv 사용을 권장
+
+### 🛠 환경변수 설정
+
+```shell script
+cp .env.example .env
+```
 
 ### 📑 의존성 설치
 
@@ -21,7 +28,14 @@ pip install -r ./requirements.txt
 python ./manage.py runserver
 ```
 
+### 🐳 Docker로 시작하기
+
+```shell script
+docker build . --tag sustagram
+```
+
 ## ⚙ Database Model (Old)
+
 ![DatabaseModel](./docs/model.png)
 
 ## 🛠 Environment Variables

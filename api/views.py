@@ -6,9 +6,10 @@ from django.contrib.auth import authenticate
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from .errors import USER_ALREADY_EXISTS, USER_NOT_FOUND
-from .models import User
-from .serializers import UserSerializer
+from .errors import USER_ALREADY_EXISTS, USER_NOT_FOUND, VALIDATION_ERROR
+from .forms import RegisterForm, LoginForm, PostForm
+from .models import User, Post
+from .serializers import UserSerializer, PostSerializer
 from .utils import make_response_payload, require_token
 
 
@@ -18,6 +19,10 @@ class Register(APIView):
             return Response(make_response_payload(is_success=False), status=415)
 
         body = json.loads(request.body)
+        form = RegisterForm(data=body)
+
+        if not form.is_valid():
+            return Response(make_response_payload(is_success=False, message=VALIDATION_ERROR), status=400)
 
         if User.objects.filter(email=body["email"]).exists():
             return Response(make_response_payload(is_success=False, message=USER_ALREADY_EXISTS), status=409)
@@ -37,6 +42,10 @@ class Login(APIView):
             return Response(make_response_payload(is_success=False), status=415)
 
         body = json.loads(request.body)
+        form = LoginForm(data=body)
+
+        if not form.is_valid():
+            return Response(make_response_payload(is_success=False, message=VALIDATION_ERROR), status=400)
 
         user = authenticate(username=body["email"], password=body["password"])
 
@@ -62,3 +71,34 @@ class Me(APIView):
     @require_token
     def get(self, request):
         return Response(make_response_payload(request.user), status=200)
+
+
+class PostAPI(APIView):
+    @require_token
+    def get(self, request):
+        posts = Post.objects.all()
+
+        result = []
+        for p in posts:
+            result.append(PostSerializer(p).data)
+
+        return Response(make_response_payload(result), status=200)
+
+    @require_token
+    def post(self, request):
+        if request.META["CONTENT_TYPE"] != "application/json":
+            return Response(make_response_payload(is_success=False), status=415)
+
+        body = json.loads(request.body)
+        form = PostForm(data=body)
+
+        if not form.is_valid():
+            return Response(make_response_payload(is_success=False, message=VALIDATION_ERROR), status=400)
+
+        post = Post.objects.create(
+            text=body["text"],
+            media=body["media"],
+            user_id_id=body["userId"]
+        )
+
+        return Response(make_response_payload(PostSerializer(post).data), status=200)

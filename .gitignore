@@ -15,3 +15,6 @@ __pycache__/
 
 # Test Database
 db.sqlite3
+
+# Jetbrains Setting
+.idea/
