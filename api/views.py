@@ -8,8 +8,8 @@ from rest_framework.views import APIView
 
 from .errors import USER_ALREADY_EXISTS, USER_NOT_FOUND, VALIDATION_ERROR
 from .forms import RegisterForm, LoginForm, PostForm
-from .models import User, Post
-from .serializers import UserSerializer, PostSerializer
+from .models import User, Post, Subscribe
+from .serializers import UserSerializer, PostSerializer, SubscribeSerializer
 from .utils import make_response_payload, require_token
 
 
@@ -76,11 +76,14 @@ class Me(APIView):
 class PostAPI(APIView):
     @require_token
     def get(self, request):
-        posts = Post.objects.all()
+        followers = Subscribe.objects.filter(user_id=UserSerializer(request.user).data['user_id']).all()
 
         result = []
-        for p in posts:
-            result.append(PostSerializer(p).data)
+        for f in followers:
+            followerid = SubscribeSerializer(f).data['following_id']
+            posts = Post.objects.filter(user_id=followerid).all()
+            for p in posts:
+                result.append(PostSerializer(p).data)
 
         return Response(make_response_payload(result), status=200)
 
