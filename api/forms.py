@@ -17,3 +17,7 @@ class PostForm(forms.Form):
     text = forms.CharField()
     media = forms.CharField()
     userId = forms.UUIDField()
+
+
+class FollowForm(forms.Form):
+    followingId = forms.UUIDField()
