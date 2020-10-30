@@ -15,7 +15,7 @@ class PostSerializer(serializers.ModelSerializer):
         model = Post
 
 
-class FollowSerializer(serializers.ModelSerializer):
+class SubscribeSerializer(serializers.ModelSerializer):
     class Meta:
         fields = '__all__'
         model = Subscribe
