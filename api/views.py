@@ -73,6 +73,18 @@ class Me(APIView):
         return Response(make_response_payload(request.user), status=200)
 
 
+class MyPostAPI(APIView):
+    @require_token
+    def get(self, request):
+        mypost = Post.objects.filter(user_id=UserSerializer(request.user).data['user_id']).all()
+
+        result = []
+        for post in mypost:
+            result.append(PostSerializer(post).data)
+
+        return Response(make_response_payload(result), status=200)
+
+
 class PostAPI(APIView):
     @require_token
     def get(self, request):
