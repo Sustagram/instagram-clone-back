@@ -77,10 +77,12 @@ class MyPostAPI(APIView):
     @require_token
     def get(self, request):
         mypost = Post.objects.filter(user_id=UserSerializer(request.user).data['user_id']).all()
-
+        myname = request.user['username']
         result = []
         for post in mypost:
-            result.append(PostSerializer(post).data)
+            data = PostSerializer(post).data
+            data['username'] = myname
+            result.append(data)
 
         return Response(make_response_payload(result), status=200)
 
