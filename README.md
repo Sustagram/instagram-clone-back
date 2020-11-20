@@ -1,4 +1,3 @@
-d
 # 인스타그램 클론코딩 백엔드
 
 - [인스터그램 클론코딩 프론트엔드](https://github.com/Sustagram/instagram-clone-front)
