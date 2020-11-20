@@ -1,5 +1,5 @@
 from django.urls import path
-from .routes import auth, post, follow, reply
+from .routes import auth, post, follow, reply, like
 
 urlpatterns = [
     path('register/', auth.Register.as_view()),
@@ -15,4 +15,6 @@ urlpatterns = [
 
     path('reply/<str:post_id>', reply.ReplyAPI.as_view()),
     path('reply/', reply.ReplyAPI.as_view()),
+
+    path('like/<str:post_id>', like.LikeAPI.as_view())
 ]
