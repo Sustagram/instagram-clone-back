@@ -1,11 +1,11 @@
 from django.urls import path
-from .views import Register, Login, Me, PostAPI, Follow, MyPostAPI
+from .routes import auth, post, follow
 
 urlpatterns = [
-    path('register/', Register.as_view()),
-    path('login/', Login.as_view()),
-    path('me/', Me.as_view()),
-    path('post/', PostAPI.as_view()),
-    path('post/my/', MyPostAPI.as_view()),
-    path('follow/', Follow.as_view())
+    path('register/', auth.Register.as_view()),
+    path('login/', auth.Login.as_view()),
+    path('me/', auth.Me.as_view()),
+    path('post/', post.PostAPI.as_view()),
+    path('post/my/', post.MyPostAPI.as_view()),
+    path('follow/', follow.Follow.as_view())
 ]
