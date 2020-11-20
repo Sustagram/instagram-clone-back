@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import User, Post, Subscribe
+from .models import User, Post, Subscribe, Reply
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -19,3 +19,9 @@ class SubscribeSerializer(serializers.ModelSerializer):
     class Meta:
         fields = '__all__'
         model = Subscribe
+
+
+class ReplySerializer(serializers.ModelSerializer):
+    class Meta:
+        fields = '__all__'
+        model = Reply
