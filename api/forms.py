@@ -21,3 +21,8 @@ class PostForm(forms.Form):
 
 class FollowForm(forms.Form):
     followingId = forms.UUIDField()
+
+
+class ReplyForm(forms.Form):
+    postId = forms.UUIDField()
+    text = forms.CharField()

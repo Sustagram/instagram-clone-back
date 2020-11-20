@@ -1,5 +1,5 @@
 from django.urls import path
-from .routes import auth, post, follow
+from .routes import auth, post, follow, reply
 
 urlpatterns = [
     path('register/', auth.Register.as_view()),
@@ -10,5 +10,8 @@ urlpatterns = [
     path('post/follow/', post.PostAPI.as_view()),
     path('post/my/', post.MyPostAPI.as_view()),
 
-    path('follow/', follow.Follow.as_view())
+    path('follow/', follow.Follow.as_view()),
+
+    path('reply/<str:post_id>', reply.ReplyAPI.as_view()),
+    path('reply/', reply.ReplyAPI.as_view()),
 ]
