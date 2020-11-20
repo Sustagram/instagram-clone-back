@@ -75,7 +75,7 @@ class Me(APIView):
 
 class GetUser(APIView):
     @require_token
-    def get(self, request, email):
-        user = User.objects.get(email=email)
+    def get(self, request, user_id):
+        user = User.objects.get(user_id=user_id)
         return Response(make_response_payload(UserSerializer(user).data), status=200)
 
