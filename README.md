@@ -1,3 +1,4 @@
+d
 # 인스타그램 클론코딩 백엔드
 
 - [인스터그램 클론코딩 프론트엔드](https://github.com/Sustagram/instagram-clone-front)
@@ -36,6 +37,8 @@ docker build . --tag sustagram
 
 ## ⚙ Database Model (Old)
 
+- 현재 상태와 매우 다를거 같음
+
 ![DatabaseModel](./docs/model.png)
 
 ## 🛠 Environment Variables
@@ -44,17 +47,17 @@ docker build . --tag sustagram
 
 - `.env.example`에 예시가 나와있습니다.
 
-- `DB_HOST`
+### `DB_HOST`
   - 데이터베이스 주소
-- `DB_PORT`
+### `DB_PORT`
   - 데이터베이스 포트
-- `DB_DATABASE`
+### `DB_DATABASE`
   - 데이터베이스 이름
-- `DB_USERNAME`
+### `DB_USERNAME`
   - 데이터베이스 유저
-- `DB_PASSWORD`
+### `DB_PASSWORD`
   - 데이터베이스 비밀번호
-- `SECRET_KEY`
+### `SECRET_KEY`
   - 장고 시크릿 키
-- `DEBUG`
+### `DEBUG`
   - 장고 디버그 모드 여부 (TRUE or FALSE)
