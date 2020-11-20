@@ -6,7 +6,7 @@ from ..serializers import SubscribeSerializer
 from ..utils import make_response_payload, require_token
 
 
-class Follow(APIView):
+class FollowNotParams(APIView):
     @require_token
     def get(self, request):
         if request.META["CONTENT_TYPE"] != "application/json":
@@ -21,6 +21,8 @@ class Follow(APIView):
 
         return Response(make_response_payload(result), status=200)
 
+
+class Follow(APIView):
     @require_token
     def post(self, request, follow_id):
         follow = Subscribe.objects.create(

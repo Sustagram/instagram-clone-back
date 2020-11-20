@@ -10,17 +10,7 @@ from ..serializers import ReplySerializer
 from ..utils import make_response_payload, require_token
 
 
-class ReplyAPI(APIView):
-    @require_token
-    def get(self, request, post_id):
-        replies = Reply.objects.filter(post_id=post_id).all()
-
-        result = []
-        for value in replies:
-            result.append(ReplySerializer(value).data)
-
-        return Response(make_response_payload(result), status=200)
-
+class ReplyAPINotParams(APIView):
     @require_token
     def post(self, request):
         if request.META["CONTENT_TYPE"] != "application/json":
@@ -39,3 +29,15 @@ class ReplyAPI(APIView):
         )
 
         return Response(make_response_payload(ReplySerializer(reply).data), status=200)
+
+
+class ReplyAPI(APIView):
+    @require_token
+    def get(self, request, post_id):
+        replies = Reply.objects.filter(post_id=post_id).all()
+
+        result = []
+        for value in replies:
+            result.append(ReplySerializer(value).data)
+
+        return Response(make_response_payload(result), status=200)
