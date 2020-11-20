@@ -5,9 +5,10 @@ urlpatterns = [
     path('register/', auth.Register.as_view()),
     path('login/', auth.Login.as_view()),
     path('me/', auth.Me.as_view()),
+    path('user/<str:email>', auth.GetUser.as_view()),
 
     path('post/follow/', post.PostAPI.as_view()),
     path('post/my/', post.MyPostAPI.as_view()),
-    
+
     path('follow/', follow.Follow.as_view())
 ]

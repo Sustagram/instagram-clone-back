@@ -71,3 +71,11 @@ class Me(APIView):
     @require_token
     def get(self, request):
         return Response(make_response_payload(request.user), status=200)
+
+
+class GetUser(APIView):
+    @require_token
+    def get(self, request, email):
+        user = User.objects.get(email=email)
+        return Response(make_response_payload(UserSerializer(user).data), status=200)
+
