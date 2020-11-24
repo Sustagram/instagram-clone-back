@@ -18,6 +18,6 @@ class PostForm(forms.Form):
     media = forms.CharField()
     userId = forms.UUIDField()
 
-
-class FollowForm(forms.Form):
-    followingId = forms.UUIDField()
+class ReplyForm(forms.Form):
+    postId = forms.UUIDField()
+    text = forms.CharField()
