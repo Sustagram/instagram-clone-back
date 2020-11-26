@@ -9,9 +9,6 @@ from ..utils import make_response_payload, require_token
 class FollowNotParams(APIView):
     @require_token
     def get(self, request):
-        if request.META["CONTENT_TYPE"] != "application/json":
-            return Response(make_response_payload(is_success=False), status=415)
-
         user_id = request.user['user_id']
         my_follow = Subscribe.objects.filter(user_id=user_id).all()
 
