@@ -21,6 +21,8 @@ class MyPostAPI(APIView):
             data['username'] = myname
             result.append(data)
 
+        result = sorted(result, key=lambda k: k['created_at'], reverse=True)
+
         return Response(make_response_payload(result), status=200)
 
 
@@ -35,6 +37,8 @@ class PostAPI(APIView):
             posts = Post.objects.filter(user_id=followerid).all()
             for p in posts:
                 result.append(PostSerializer(p).data)
+
+        result = sorted(result, key=lambda k: k['created_at'], reverse=True)
 
         return Response(make_response_payload(result), status=200)
 
