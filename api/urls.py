@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .routes import auth, post, follow, reply, like, upload
+from .controllers import auth, post, follow, reply, like, upload
 
 urlpatterns = [
     path('register/', auth.Register.as_view()),
