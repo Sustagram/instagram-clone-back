@@ -38,6 +38,8 @@ class PostAPI(APIView):
 
         return Response(make_response_payload(result), status=200)
 
+
+class PostUploadAPI(APIView):
     @require_token
     def post(self, request):
         if request.META["CONTENT_TYPE"] != "application/json":

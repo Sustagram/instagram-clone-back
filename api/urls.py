@@ -10,6 +10,7 @@ urlpatterns = [
 
     path('post/follow/', post.PostAPI.as_view()),
     path('post/my/', post.MyPostAPI.as_view()),
+    path('post/', post.PostUploadAPI.as_view()),
 
     path('follow/<str:follow_id>', follow.Follow.as_view()),
     path('follow/', follow.FollowNotParams.as_view()),
