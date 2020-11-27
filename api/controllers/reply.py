@@ -34,7 +34,7 @@ class ReplyAPINotParams(APIView):
 class ReplyAPI(APIView):
     @require_token
     def get(self, request, post_id):
-        replies = Reply.objects.filter(post_id=post_id).all()
+        replies = Reply.objects.filter(post_id=post_id).all().order_by('created_at')
 
         result = []
         for value in replies:
@@ -43,7 +43,5 @@ class ReplyAPI(APIView):
             data['username'] = UserSerializer(user_data).data['username']
             data['realname'] = UserSerializer(user_data).data['realname']
             result.append(data)
-
-        result = sorted(result, key=lambda k: k['created_at'])
 
         return Response(make_response_payload(result), status=200)

@@ -13,15 +13,13 @@ from ..utils import make_response_payload, require_token
 class MyPostAPI(APIView):
     @require_token
     def get(self, request):
-        mypost = Post.objects.filter(user_id=UserSerializer(request.user).data['user_id']).all()
+        mypost = Post.objects.filter(user_id=UserSerializer(request.user).data['user_id']).all().order_by('-created_at')
         result = []
         for post in mypost:
             data = PostSerializer(post).data
             user_data = User.objects.filter(user_id=data['user_id']).all()[0]
             data['username'] = UserSerializer(user_data).data['username']
             result.append(data)
-
-        result = sorted(result, key=lambda k: k['created_at'], reverse=True)
 
         return Response(make_response_payload(result), status=200)
 
@@ -34,14 +32,12 @@ class PostAPI(APIView):
         result = []
         for f in followers:
             followerid = SubscribeSerializer(f).data['following_id']
-            posts = Post.objects.filter(user_id=followerid).all()
+            posts = Post.objects.filter(user_id=followerid).all().order_by('-created_at')
             for p in posts:
                 data = PostSerializer(p).data
                 user_data = User.objects.filter(user_id=data['user_id']).all()[0]
                 data['username'] = UserSerializer(user_data).data['username']
                 result.append(data)
-
-        result = sorted(result, key=lambda k: k['created_at'], reverse=True)
 
         return Response(make_response_payload(result), status=200)
 
