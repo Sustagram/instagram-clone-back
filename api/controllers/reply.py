@@ -44,4 +44,6 @@ class ReplyAPI(APIView):
             data['realname'] = UserSerializer(user_data).data['realname']
             result.append(data)
 
+        result = sorted(result, key=lambda k: k['created_at'])
+
         return Response(make_response_payload(result), status=200)
