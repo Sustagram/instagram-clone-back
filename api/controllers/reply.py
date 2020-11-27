@@ -5,8 +5,8 @@ from rest_framework.views import APIView
 
 from ..errors import VALIDATION_ERROR
 from ..forms import ReplyForm
-from ..models import Reply
-from ..serializers import ReplySerializer
+from ..models import Reply, User
+from ..serializers import ReplySerializer, UserSerializer
 from ..utils import make_response_payload, require_token
 
 
@@ -38,6 +38,10 @@ class ReplyAPI(APIView):
 
         result = []
         for value in replies:
-            result.append(ReplySerializer(value).data)
+            data = ReplySerializer(value).data
+            user_data = User.objects.filter(user_id=data['user_id']).all()[0]
+            data['username'] = UserSerializer(user_data).data['username']
+            data['realname'] = UserSerializer(user_data).data['realname']
+            result.append(data)
 
         return Response(make_response_payload(result), status=200)
