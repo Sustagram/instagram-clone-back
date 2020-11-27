@@ -19,6 +19,7 @@ urlpatterns = [
     path('reply/', reply.ReplyAPINotParams.as_view()),
 
     path('like/<str:post_id>', like.LikeAPI.as_view()),
+    path('like/data/<str:post_id>', like.LikeDataAPI.as_view()),
 
     path('upload/', upload.UploadAPI.as_view())
 ]
