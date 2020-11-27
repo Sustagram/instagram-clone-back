@@ -5,7 +5,7 @@ from rest_framework.views import APIView
 
 from ..errors import VALIDATION_ERROR
 from ..forms import PostForm
-from ..models import Post, Subscribe
+from ..models import Post, Subscribe, User
 from ..serializers import UserSerializer, PostSerializer, SubscribeSerializer
 from ..utils import make_response_payload, require_token
 
@@ -14,11 +14,11 @@ class MyPostAPI(APIView):
     @require_token
     def get(self, request):
         mypost = Post.objects.filter(user_id=UserSerializer(request.user).data['user_id']).all()
-        myname = request.user['username']
         result = []
         for post in mypost:
             data = PostSerializer(post).data
-            data['username'] = myname
+            user_data = User.objects.filter(user_id=data['user_id']).all()[0]
+            data['username'] = UserSerializer(user_data).data['username']
             result.append(data)
 
         result = sorted(result, key=lambda k: k['created_at'], reverse=True)
@@ -36,7 +36,10 @@ class PostAPI(APIView):
             followerid = SubscribeSerializer(f).data['following_id']
             posts = Post.objects.filter(user_id=followerid).all()
             for p in posts:
-                result.append(PostSerializer(p).data)
+                data = PostSerializer(p).data
+                user_data = User.objects.filter(user_id=data['user_id']).all()[0]
+                data['username'] = UserSerializer(user_data).data['username']
+                result.append(data)
 
         result = sorted(result, key=lambda k: k['created_at'], reverse=True)
 
