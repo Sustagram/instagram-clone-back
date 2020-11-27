@@ -37,3 +37,10 @@ class LikeAPI(APIView):
         is_exist = Like.objects.filter(user_id_id=user_id, post_id_id=post_id).exists()
 
         return Response(make_response_payload(is_exist), status=200)
+
+
+class LikeDataAPI(APIView):
+    @require_token
+    def get(self, request, post_id):
+        data = Like.objects.filter(post_id_id=post_id).all()
+        return Response(make_response_payload(LikeSerializer(data, many=True).data), status=200)

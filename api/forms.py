@@ -18,6 +18,11 @@ class PostForm(forms.Form):
     media = forms.CharField()
     userId = forms.UUIDField()
 
+
 class ReplyForm(forms.Form):
     postId = forms.UUIDField()
     text = forms.CharField()
+
+
+class UploadForm(forms.Form):
+    file = forms.FileField()
