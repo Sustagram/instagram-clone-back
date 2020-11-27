@@ -1,8 +1,8 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from ..models import Subscribe
-from ..serializers import SubscribeSerializer
+from ..models import Subscribe, User
+from ..serializers import SubscribeSerializer, UserSerializer
 from ..utils import make_response_payload, require_token
 
 
@@ -14,7 +14,11 @@ class FollowNotParams(APIView):
 
         result = []
         for value in my_follow:
-            result.append(SubscribeSerializer(value).data)
+            data = SubscribeSerializer(value).data
+            user_data = User.objects.filter(user_id=data['user_id']).all()[0]
+            data['following_username'] = UserSerializer(user_data).data['username']
+            data['following_realname'] = UserSerializer(user_data).data['realname']
+            result.append(data)
 
         return Response(make_response_payload(result), status=200)
 
